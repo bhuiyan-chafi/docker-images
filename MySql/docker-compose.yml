@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_service
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword           # Root password for MySQL
+      MYSQL_DATABASE: mydatabase                  # Optional initial database creation
+    ports:
+      - "3306:3306"                               # Expose MySQL on port 3307 to avoid conflicts
+    volumes:
+      - mysql_data:/var/lib/mysql                 # Persist MySQL data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Run init.sql on startup
+
+volumes:
+  mysql_data:
