@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    env_file:
+      - .env  # Pointing to an external .env file for credentials
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+
+  web:
+    build:
+      context: ./django
+      dockerfile: Dockerfile
+    container_name: django_app
+    command: ["sh", "-c", "sleep 10 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    volumes:
+      - ./django:/app  # Mounts code for live reloading
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env  # Reuse .env for Django environment variables
+
+volumes:
+  mysql_data:

@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS django_app;
+CREATE USER IF NOT EXISTS 'app_user'@'%' IDENTIFIED BY 'app_password';
+GRANT ALL PRIVILEGES ON django_app.* TO 'app_user'@'%';
+FLUSH PRIVILEGES;
