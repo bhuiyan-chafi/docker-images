@@ -1,0 +1,11 @@
+services:
+  django_rest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_rest_app
+    command: ["sh", "-c", "sleep 10 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    volumes:
+      - .:/app  # Mounts code for live reloading
+    ports:
+      - "8000:8000"
